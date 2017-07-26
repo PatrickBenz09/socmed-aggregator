@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="">
+      <form class="" id="searchForm" action="#" method="post">
+        <input type="text" name="" id="search">
+        <button type="submit" name="button">Search</button>
+      </form>
+    </div>
+    <div class="" id="res">
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var $searchForm = $('#searchForm');
+        var $search = $('#search');
+        var $result = $('#res');
+
+        $searchForm.submit(function(event) {
+          event.preventDefault();
+          var resu = $result;
+
+          $.ajax({
+            type: 'POST',
+
+            async: false,
+            crossDomain: true,
+            //dataType: 'text',
+            header: { 'Access-Control-Allow-Origin': 'http://localhost:8081/search' },
+
+            data: { keyword: $search.val() },
+            url: 'http://localhost:8081/search',
+            success: function(resp) {
+              console.log(resp);
+              console.log('HeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeLLLLLLLLLLLLLLoooooooooooooooOooo');
+              resu.append(`<span>Hay</span>`);
+            },
+            error: function() {
+
+            }
+          })
+
+          $search.val('');
+        })
+      })
+    </script>
+  </body>
+</html>
