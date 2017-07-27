@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container center-align margin-init">
+
+      <div class="">
+        <form class="" id="postForm" action="#" method="post">
+          <input type="text" name="" id="tweet">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Tweet</button>
+        </form>
+      </div>
+
+      <div class="row">
+        <ul class="collection col s6 offset-s3" id="res"></ul>
+      </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var $postForm = $('#postForm');
+        var $tweet = $('#tweet');
+        var $result = $('#res');
+
+        $postForm.submit(function(event) {
+          event.preventDefault();
+          $result.val('');
+
+          $.ajax({
+            type: 'POST',
+            data: { tweet: $tweet.val() },
+            url: 'http://localhost:8081/tweet',
+            success: function(resp) {
+              let respJson = JSON.parse(resp);
+              console.log(respJson);
+              $result.html('<div>Successfully Tweeted!</div>')
+            },
+            error: function() { }
+          })
+
+        })
+      })
+    </script>
+  </body>
+</html>

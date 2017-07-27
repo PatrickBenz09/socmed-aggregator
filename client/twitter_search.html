@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style media="screen">
+      .margin-init {
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container margin-init">
+
+      <div class="center-align">
+        <form class="" id="searchForm" action="#" method="post">
+          <input type="text" name="" id="search">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Search</button>
+        </form>
+      </div>
+
+      <div class="row">
+        <ul class="collection col s8 offset-s2" id="res"></ul>
+      </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var $searchForm = $('#searchForm');
+        var $search = $('#search');
+        var $result = $('#res');
+
+        $searchForm.submit(function(event) {
+          event.preventDefault();
+          $result.val('');
+
+          $.ajax({
+            type: 'POST',
+            data: { keyword: $search.val() },
+            url: 'http://localhost:8081/search',
+            success: function(resp) {
+              let respJson = JSON.parse(resp).statuses;
+              respJson.forEach(r => {
+                $result.prepend(`
+                  <li class="collection-item avatar">
+                    <img src="${r.user.profile_image_url}" alt="" class="circle">
+                    <span class="name" style="text-decoration: underline">${r.user.screen_name}</span><br>
+                    <span class="name">${r.text}</span><br><br>
+                    <p class="right-align">Tweeted from ${r.user.location} at ${r.user.created_at}</p>
+                  </li>
+                `);
+              })
+            },
+            error: function() { }
+          })
+
+        })
+      })
+    </script>
+  </body>
+</html>

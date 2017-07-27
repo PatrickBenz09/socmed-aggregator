@@ -18,7 +18,7 @@ var myOauth = new OAuth.OAuth(
 
 router.get('/', (req, res, done) => {
   myOauth.get(
-    'https://api.twitter.com/1.1/statuses/home_timeline.json',
+    'https://api.twitter.com/1.1/statuses/user_timeline.json',
     process.env.ACCESS_TOKEN,
     process.env.ACCESS_TOKEN_SECRET,
     function (e, data, res2){

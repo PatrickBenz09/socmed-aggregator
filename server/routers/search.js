@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
     process.env.ACCESS_TOKEN_SECRET,
     function (e, data, res2){
       if (e) console.error(e);
-      //console.log(require('util').inspect(data));
+      console.log(require('util').inspect(data));
       res.send(data);
     });
 })
