@@ -16,49 +16,47 @@
     </style>
   </head>
   <body>
-    <div class="container center-align margin-init">
+    <div class="container margin-init">
 
-      <div class="">
-        <form class="" id="trendForm" action="#" method="post">
-          <button class="btn waves-effect waves-light" type="submit" name="action">What's Trending? (USA)</button>
+      <div class="center-align">
+        <form class="" id="timelineForm" action="#" method="post">
+          <button class="btn waves-effect waves-light blue" type="submit" name="action">Search</button>
         </form>
       </div>
 
       <div class="row">
-        <ul class="collection col s6 offset-s3" id="res"></ul>
+        <ul class="collection col s8 offset-s2" id="res"></ul>
       </div>
 
     </div>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script type="text/javascript">
       $(function() {
-        var $trendForm = $('#trendForm');
-        var $trend = $('#trend');
+        var $timelineForm = $('#timelineForm');
         var $result = $('#res');
 
-        $trendForm.submit(function(event) {
+        $timelineForm.submit(function(event) {
           event.preventDefault();
-          $result.val('');
 
           $.ajax({
             type: 'GET',
-            url: 'http://localhost:8081/trends',
+            url: 'http://localhost:8081/timeline',
             success: function(resp) {
-              let respJson = JSON.parse(resp)[0].trends;
+              let respJson = JSON.parse(resp);
               console.log(respJson);
               respJson.forEach(r => {
-                $result.prepend(`
+                $result.append(`
                   <li class="collection-item avatar">
-                    <i class="material-icons circle green" style="font-size: 14px">Trend</i>
-                    <span class="name right-align" style="text-decoration: underline">${r.name}</span><br><br>
-                    <p class="right-align"><a href="${r.url}">To Tweets</a></p>
+                    <img src="${r.user.profile_image_url}" alt="" class="circle">
+                    <span class="name" style="text-decoration: underline">${r.user.screen_name}</span><br>
+                    <span class="name">${r.text}</span><br><br>
+                    <p class="right-align">Tweeted from ${r.user.location} at ${r.user.created_at}</p>
                   </li>
                 `);
               })
             },
-            error: function() { }
+            error: function(err) { }
           })
-
         })
       })
     </script>
